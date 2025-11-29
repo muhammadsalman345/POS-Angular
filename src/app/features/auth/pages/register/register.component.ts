@@ -45,27 +45,60 @@ export class RegisterComponent {
 
   constructor() {
     this.registerForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?[1-9]\d{1,14}$/)]],
+      address: ['', [Validators.required, Validators.minLength(5)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
+    }, {
+      validators: this.passwordMatchValidator
     });
+  }
+
+  // Custom validator for password match
+  private passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password');
+    const confirmPassword = form.get('confirmPassword');
+    
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      confirmPassword.setErrors({ mismatch: true });
+    } else {
+      confirmPassword?.setErrors(null);
+    }
+    
+    return null;
   }
 
   async onSubmit(): Promise<void> {
     if (this.registerForm.valid) {
       const { confirmPassword, ...userData } = this.registerForm.value;
-      const success = await this.authStore.register(userData);
+      const success = await this.authStore.signup(userData);
+      
       if (success) {
         this.router.navigate(['/dashboard']);
       }
+    } else {
+      // Mark all fields as touched to show validation errors
+      this.markFormGroupTouched(this.registerForm);
     }
   }
 
+  // Helper method to mark all form fields as touched
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+    });
+  }
+
+  // Getter methods for form controls
   get firstName() { return this.registerForm.get('firstName'); }
   get lastName() { return this.registerForm.get('lastName'); }
   get email() { return this.registerForm.get('email'); }
+  get phoneNumber() { return this.registerForm.get('phoneNumber'); }
+  get address() { return this.registerForm.get('address'); }
   get password() { return this.registerForm.get('password'); }
   get confirmPassword() { return this.registerForm.get('confirmPassword'); }
 }

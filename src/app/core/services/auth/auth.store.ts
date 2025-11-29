@@ -32,7 +32,7 @@ export class AuthStore {
     }
   }
 
-  async register(userData: any): Promise<boolean> {
+  async signup(userData: any): Promise<boolean> {
     this.loadingSubject.next(true);
     this.errorSubject.next(null);
 
@@ -40,7 +40,7 @@ export class AuthStore {
       await this.authService.register(userData).toPromise();
       return true;
     } catch (error: any) {
-      this.errorSubject.next(error.message || 'Registration failed');
+      this.errorSubject.next(error.message || 'Signup failed');
       return false;
     } finally {
       this.loadingSubject.next(false);
