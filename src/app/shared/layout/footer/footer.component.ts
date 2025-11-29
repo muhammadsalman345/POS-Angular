@@ -1,0 +1,16 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { environment } from '../../../../environments/environment';
+
+@Component({
+  selector: 'app-footer',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss']
+})
+export class FooterComponent {
+  currentYear = new Date().getFullYear();
+  appName = environment.appName;
+  version = environment.version;
+}

@@ -1,1 +1,154 @@
-/* You can add global styles to this file, and also import other style files */
+// Global CSS Variables
+:root {
+  // Light theme
+  --primary-color: #1976d2;
+  --secondary-color: #dc004e;
+  --background-color: #ffffff;
+  --surface-color: #f8f9fa;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --error-color: #dc3545;
+  --info-color: #17a2b8;
+  --font-family-primary: 'Inter', 'Roboto', sans-serif;
+}
+
+.dark-theme {
+  --primary-color: #90caf9;
+  --secondary-color: #f48fb1;
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --border-color: #333333;
+  --success-color: #81c784;
+  --warning-color: #ffb74d;
+  --error-color: #e57373;
+  --info-color: #4fc3f7;
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-family-primary);
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utility Classes */
+.container-fluid {
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.d-flex { display: flex !important; }
+.d-none { display: none !important; }
+.d-block { display: block !important; }
+.d-inline-block { display: inline-block !important; }
+
+.flex-column { flex-direction: column; }
+.align-items-center { align-items: center; }
+.justify-content-center { justify-content: center; }
+.justify-content-between { justify-content: space-between; }
+
+.w-100 { width: 100% !important; }
+.h-100 { height: 100% !important; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-muted { color: var(--text-secondary) !important; }
+.text-white { color: white !important; }
+
+.bg-primary { background-color: var(--primary-color) !important; }
+.bg-success { background-color: var(--success-color) !important; }
+.bg-warning { background-color: var(--warning-color) !important; }
+.bg-info { background-color: var(--info-color) !important; }
+
+/* Spacing */
+.m-0 { margin: 0 !important; }
+.m-1 { margin: 0.25rem !important; }
+.m-2 { margin: 0.5rem !important; }
+.m-3 { margin: 0.75rem !important; }
+.m-4 { margin: 1rem !important; }
+
+.p-0 { padding: 0 !important; }
+.p-1 { padding: 0.25rem !important; }
+.p-2 { padding: 0.5rem !important; }
+.p-3 { padding: 0.75rem !important; }
+.p-4 { padding: 1rem !important; }
+
+.me-1 { margin-right: 0.25rem !important; }
+.me-2 { margin-right: 0.5rem !important; }
+.me-3 { margin-right: 0.75rem !important; }
+.me-4 { margin-right: 1rem !important; }
+
+.ms-auto { margin-left: auto !important; }
+.me-auto { margin-right: auto !important; }
+.mx-auto { margin-left: auto !important; margin-right: auto !important; }
+
+.gap-1 { gap: 0.25rem !important; }
+.gap-2 { gap: 0.5rem !important; }
+.gap-3 { gap: 0.75rem !important; }
+.gap-4 { gap: 1rem !important; }
+
+/* Typography */
+h1, .h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+h2, .h2 { font-size: 2rem; font-weight: 600; line-height: 1.3; margin-bottom: 1rem; }
+h3, .h3 { font-size: 1.75rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.75rem; }
+h4, .h4 { font-size: 1.5rem; font-weight: 500; line-height: 1.4; margin-bottom: 0.75rem; }
+h5, .h5 { font-size: 1.25rem; font-weight: 500; line-height: 1.5; margin-bottom: 0.5rem; }
+h6, .h6 { font-size: 1rem; font-weight: 500; line-height: 1.5; margin-bottom: 0.5rem; }
+
+.lead { font-size: 1.25rem; font-weight: 300; line-height: 1.7; }
+
+.fw-bold { font-weight: 700; }
+.fw-semibold { font-weight: 600; }
+.fw-medium { font-weight: 500; }
+.fw-normal { font-weight: 400; }
+
+/* Material overrides */
+.mat-mdc-snack-bar-container {
+  &.snackbar-success {
+    --mdc-snackbar-container-color: var(--success-color);
+  }
+  &.snackbar-error {
+    --mdc-snackbar-container-color: var(--error-color);
+  }
+  &.snackbar-warning {
+    --mdc-snackbar-container-color: var(--warning-color);
+  }
+  &.snackbar-info {
+    --mdc-snackbar-container-color: var(--info-color);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+  
+  .container-fluid {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+}

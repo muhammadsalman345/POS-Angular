@@ -1,0 +1,18 @@
+.header-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 64px;
+  
+  .brand-section {
+    .brand-text {
+      font-size: 1.25rem;
+    }
+  }
+
+  .user-menu-btn {
+    color: inherit;
+  }
+}

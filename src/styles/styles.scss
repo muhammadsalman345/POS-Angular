@@ -1,0 +1,59 @@
+// Base
+@use './base/reset';
+@use './base/typography';
+@use './base/variables';
+@use './base/mixins';
+
+// Themes
+@use './themes/light-theme';
+@use './themes/dark-theme';
+@use './themes/material-theme';
+
+// Layout
+@use './layout/grid';
+@use './layout/header';
+@use './layout/sidebar';
+@use './layout/footer';
+
+// Components
+@use './components/buttons';
+@use './components/cards';
+@use './components/forms';
+@use './components/tables';
+
+// Utilities
+@use './utilities/spacing';
+@use './utilities/colors';
+@use './utilities/display';
+
+// Global styles
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-family-primary);
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// Material overrides
+.mat-mdc-snack-bar-container {
+  &.snackbar-success {
+    --mdc-snackbar-container-color: var(--success-color);
+  }
+  &.snackbar-error {
+    --mdc-snackbar-container-color: var(--error-color);
+  }
+  &.snackbar-warning {
+    --mdc-snackbar-container-color: var(--warning-color);
+  }
+  &.snackbar-info {
+    --mdc-snackbar-container-color: var(--info-color);
+  }
+}

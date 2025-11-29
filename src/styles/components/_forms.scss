@@ -1,0 +1,24 @@
+.login-container,
+.register-container {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #673ab7 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.login-card,
+.register-card {
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.login-form,
+.register-form {
+  .mat-form-field {
+    font-size: 14px;
+  }
+}
+
+.min-vh-100 {
+  min-height: 100vh;
+}

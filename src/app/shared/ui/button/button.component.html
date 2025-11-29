@@ -1,0 +1,12 @@
+<button 
+  [type]="type"
+  [class]="buttonClasses"
+  [disabled]="disabled || loading"
+  class="position-relative">
+  
+  @if (loading) {
+    <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+  }
+  
+  <ng-content></ng-content>
+</button>

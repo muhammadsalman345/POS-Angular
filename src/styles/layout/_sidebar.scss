@@ -1,0 +1,46 @@
+.sidebar {
+  width: 250px;
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  
+  .sidebar-content {
+    padding: 16px 0;
+  }
+
+  .sidebar-item,
+  .sidebar-child-item {
+    margin: 2px 8px;
+    border-radius: 8px;
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+    
+    &.active {
+      background-color: var(--primary-color);
+      color: white;
+      
+      mat-icon {
+        color: inherit;
+      }
+    }
+  }
+
+  .sidebar-expansion {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .sidebar-child-item {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: calc(100% - 32px);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 280px;
+  }
+}

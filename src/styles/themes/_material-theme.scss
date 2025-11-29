@@ -1,0 +1,17 @@
+// Material Design specific overrides
+.mat-mdc-card {
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+}
+
+.mat-mdc-toolbar {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
+    background-color: var(--surface-color) !important;
+    color: var(--text-primary) !important;
+  }
+}
