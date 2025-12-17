@@ -1,6 +1,6 @@
 <div class="register-container">
   <div class="row justify-content-center align-items-center min-vh-100">
-    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10">
+       <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8">
       <mat-card class="register-card">
         <mat-card-header class="text-center mb-4">
           <mat-card-title class="fw-bold text-primary">Create Your Account</mat-card-title>
@@ -11,8 +11,7 @@
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
             
             <!-- First Name & Last Name Row -->
-            <div class="row">
-              <div class="col-md-6">
+        
                 <mat-form-field class="w-100 mb-3">
                   <mat-label>First Name</mat-label>
                   <input matInput formControlName="firstName" placeholder="Enter your first name">
@@ -29,9 +28,7 @@
                     </mat-error>
                   }
                 </mat-form-field>
-              </div>
-              
-              <div class="col-md-6">
+       
                 <mat-form-field class="w-100 mb-3">
                   <mat-label>Last Name</mat-label>
                   <input matInput formControlName="lastName" placeholder="Enter your last name">
@@ -48,8 +45,7 @@
                     </mat-error>
                   }
                 </mat-form-field>
-              </div>
-            </div>
+        
 
             <!-- Email -->
             <mat-form-field class="w-100 mb-3">
@@ -106,8 +102,7 @@
             </mat-form-field>
 
             <!-- Password & Confirm Password Row -->
-            <div class="row">
-              <div class="col-md-6">
+         
                 <mat-form-field class="w-100 mb-3">
                   <mat-label>Password</mat-label>
                   <input matInput formControlName="password" 
@@ -128,9 +123,8 @@
                     </mat-error>
                   }
                 </mat-form-field>
-              </div>
-              
-              <div class="col-md-6">
+    
+            
                 <mat-form-field class="w-100 mb-4">
                   <mat-label>Confirm Password</mat-label>
                   <input matInput formControlName="confirmPassword" 
@@ -151,8 +145,8 @@
                     </mat-error>
                   }
                 </mat-form-field>
-              </div>
-            </div>
+         
+            
 
             <!-- Error Message -->
             @if (error$ | async; as error) {

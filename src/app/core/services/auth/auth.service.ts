@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   register(userData: any): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('auth/register', userData).pipe(
+    return this.http.post<LoginResponse>('auth/signup', userData).pipe(
       tap(response => {
         this.setSession(response);
       })

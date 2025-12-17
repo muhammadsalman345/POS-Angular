@@ -2,12 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { User } from '../../../models/user.model';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthStore {
   private authService = inject(AuthService);
+    private _notificationService= inject(NotificationService)
   
   private loadingSubject = new BehaviorSubject<boolean>(false);
   private errorSubject = new BehaviorSubject<string | null>(null);
@@ -25,6 +27,7 @@ export class AuthStore {
       await this.authService.login(credentials).toPromise();
       return true;
     } catch (error: any) {
+      
       this.errorSubject.next(error.message || 'Login failed');
       return false;
     } finally {
@@ -40,7 +43,8 @@ export class AuthStore {
       await this.authService.register(userData).toPromise();
       return true;
     } catch (error: any) {
-      this.errorSubject.next(error.message || 'Signup failed');
+      this._notificationService.error(error.error.message )
+      this.errorSubject.next(error.error.message || 'Signup failed');
       return false;
     } finally {
       this.loadingSubject.next(false);
