@@ -1,0 +1,33 @@
+.public-shell {
+  background: var(--color-background);
+  min-height: 100vh;
+}
+
+.market-header {
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+
+  nav {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+.public-brand {
+  color: var(--color-primary);
+  font-weight: 900;
+}
+
+@media (max-width: 640px) {
+  .market-header,
+  .market-header nav {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,48 @@
+.stat-card {
+  align-items: center;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  gap: 0.9rem;
+  padding: 1rem;
+
+  strong {
+    color: var(--color-primary);
+    display: block;
+    font-size: 1.5rem;
+    line-height: 1.1;
+  }
+
+  span:last-child {
+    color: var(--color-muted);
+    font-size: 0.88rem;
+  }
+}
+
+.stat-icon {
+  align-items: center;
+  background: #eff6ff;
+  border-radius: 8px;
+  color: var(--color-secondary);
+  display: inline-flex;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+.success .stat-icon {
+  background: #dcfce7;
+  color: var(--color-success);
+}
+
+.warning .stat-icon {
+  background: #fef3c7;
+  color: var(--color-accent);
+}
+
+.danger .stat-icon {
+  background: #fee2e2;
+  color: var(--color-danger);
+}

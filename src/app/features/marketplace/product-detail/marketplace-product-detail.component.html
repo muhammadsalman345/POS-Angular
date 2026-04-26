@@ -1,0 +1,15 @@
+<section class="product-detail">
+  <img [src]="text('image')" alt="Mobile phone detail" />
+  <div>
+    <span class="eyebrow">{{ text('shopName') }} · {{ text('city') }}</span>
+    <h1>{{ text('brand') }} {{ text('model') }}</h1>
+    <strong>{{ money('expectedSalePrice') | currency: 'PKR ' }}</strong>
+    <p>Verified listing with device condition, PTA status, shop identity, and POS-backed inventory record.</p>
+    <div class="badge-row">
+      <app-status-badge [status]="status('condition')" />
+      <app-status-badge [status]="status('ptaStatus')" />
+      <app-status-badge [status]="status('status')" />
+    </div>
+    <button class="btn btn-primary" type="button">Contact shop</button>
+  </div>
+</section>

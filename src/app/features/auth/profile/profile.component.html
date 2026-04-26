@@ -1,0 +1,6 @@
+<app-page-header title="Profile" subtitle="Manage your account and workspace identity" />
+<section class="panel">
+  <div><span>Name</span><strong>{{ auth.currentUser()?.name ?? 'Current User' }}</strong></div>
+  <div><span>Phone</span><strong>{{ auth.currentUser()?.phone ?? 'Not available' }}</strong></div>
+  <div><span>Role</span><strong>{{ auth.currentUser()?.role ?? 'USER' }}</strong></div>
+</section>

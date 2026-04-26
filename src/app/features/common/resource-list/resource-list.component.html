@@ -1,0 +1,57 @@
+<app-page-header
+  [title]="config().title"
+  [subtitle]="'Manage ' + (config().title | titlecase) + ' with search, pagination-ready tables, and clean actions'"
+  [actionLabel]="config().createRoute ? 'Create' : ''"
+  [actionRoute]="config().createRoute ?? ''"
+/>
+
+<app-search-filter-bar (searchChange)="search($event)" />
+
+@if (visibleRows().length) {
+  <section class="table-card">
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            @for (column of config().columns; track column) {
+              <th>{{ column | titlecase }}</th>
+            }
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of visibleRows(); track row['id']) {
+            <tr>
+              @for (column of config().columns; track column) {
+                <td>
+                  @if (isStatusColumn(column)) {
+                    <app-status-badge [status]="cell(row, column)" />
+                  } @else if (column.toLowerCase().includes('price') || column === 'amount' || column === 'salePrice') {
+                    {{ money(row, column) | currency: 'PKR ' }}
+                  } @else {
+                    {{ cell(row, column) }}
+                  }
+                </td>
+              }
+              <td class="text-end">
+                <a mat-icon-button [routerLink]="[row['id']]"><mat-icon>visibility</mat-icon></a>
+                @if (config().createRoute) {
+                  <a mat-icon-button [routerLink]="[row['id'], 'edit']"><mat-icon>edit</mat-icon></a>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <footer class="table-footer">
+      <span>{{ visibleRows().length }} records</span>
+      <div class="btn-group">
+        <button class="btn btn-outline-secondary btn-sm" type="button">Previous</button>
+        <button class="btn btn-outline-secondary btn-sm" type="button">Next</button>
+      </div>
+    </footer>
+  </section>
+} @else {
+  <app-empty-state />
+}

@@ -1,0 +1,31 @@
+<app-page-header [title]="title()" subtitle="Clean reactive form with validation and API-backed save flow" />
+
+<form class="entity-form" [formGroup]="form" (ngSubmit)="submit()">
+  @for (field of fields(); track field.key) {
+    @if (field.type === 'file') {
+      <div class="span-2">
+        <app-file-upload-preview [label]="field.label" />
+      </div>
+    } @else if (field.type === 'select') {
+      <mat-form-field>
+        <mat-label>{{ field.label }}</mat-label>
+        <mat-select [formControlName]="field.key">
+          @for (option of field.options ?? []; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else {
+      <mat-form-field>
+        <mat-label>{{ field.label }}</mat-label>
+        <input matInput [type]="field.type" [formControlName]="field.key" />
+        @if (form.controls[field.key].touched && form.controls[field.key].invalid) {
+          <mat-error>{{ field.label }} is required</mat-error>
+        }
+      </mat-form-field>
+    }
+  }
+  <div class="span-2 form-actions">
+    <button mat-flat-button color="primary" type="submit">Save</button>
+  </div>
+</form>

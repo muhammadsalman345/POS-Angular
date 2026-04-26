@@ -1,0 +1,9 @@
+<app-page-header [title]="title()" subtitle="Complete record detail view" />
+<section class="detail-grid">
+  @for (entry of record() | keyvalue; track entry.key) {
+    <article>
+      <span>{{ entry.key | titlecase }}</span>
+      <strong>{{ entry.value }}</strong>
+    </article>
+  }
+</section>

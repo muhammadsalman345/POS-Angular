@@ -1,0 +1,6 @@
+export enum PtaStatus {
+  APPROVED = 'APPROVED',
+  NOT_APPROVED = 'NOT_APPROVED',
+  PATCHED = 'PATCHED',
+  UNKNOWN = 'UNKNOWN'
+}

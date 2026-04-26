@@ -1,0 +1,26 @@
+.status-badge {
+  background: #eff6ff;
+  border-radius: 999px;
+  color: var(--color-secondary);
+  display: inline-flex;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  padding: 0.25rem 0.6rem;
+  text-transform: capitalize;
+}
+
+.success {
+  background: #dcfce7;
+  color: var(--color-success);
+}
+
+.warning {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.danger {
+  background: #fee2e2;
+  color: var(--color-danger);
+}

@@ -1,0 +1,20 @@
+export const APP_ROUTES = {
+  LOGIN: '/login',
+  REGISTER: '/register',
+  DASHBOARD: '/dashboard',
+  PROFILE: '/profile',
+  CHANGE_PASSWORD: '/change-password',
+  SHOPS: '/shops',
+  SELLERS: '/sellers',
+  PRODUCTS: '/products',
+  PURCHASES: '/purchases',
+  INVENTORY: '/inventory',
+  CUSTOMERS: '/customers',
+  SALES: '/sales',
+  EXPENSES: '/expenses',
+  REPORTS: '/reports',
+  MARKETPLACE: '/marketplace',
+  USERS: '/users',
+  ACCESS_DENIED: '/access-denied',
+  NOT_FOUND: '/not-found'
+} as const;

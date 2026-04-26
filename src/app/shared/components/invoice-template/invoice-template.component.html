@@ -1,0 +1,22 @@
+<article class="print-template">
+  <header>
+    <div>
+      <strong>Second-Hand Mobile POS</strong>
+      <span>Professional sales invoice</span>
+    </div>
+    <div>
+      <span>Invoice</span>
+      <strong>{{ invoiceNumber() }}</strong>
+    </div>
+  </header>
+  <section class="print-grid">
+    <div><span>Customer</span><strong>{{ customer() }}</strong></div>
+    <div><span>Product</span><strong>{{ product() }}</strong></div>
+    <div><span>Total</span><strong>{{ amount() | currency: 'PKR ' }}</strong></div>
+    <div><span>Status</span><strong>Paid</strong></div>
+  </section>
+  <footer>
+    <span>Thank you for your business.</span>
+    <button type="button" class="btn btn-primary" onclick="window.print()">Print</button>
+  </footer>
+</article>

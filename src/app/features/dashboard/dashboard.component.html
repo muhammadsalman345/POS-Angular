@@ -1,0 +1,28 @@
+<app-page-header title="Dashboard" subtitle="A clear view of sales, inventory, purchases, and profit" />
+
+<section class="stats-grid">
+  @for (stat of stats; track stat.label) {
+    <app-stat-card [label]="stat.label" [value]="stat.value" [icon]="stat.icon" [tone]="stat.tone" />
+  }
+</section>
+
+<section class="dashboard-grid">
+  <article class="panel">
+    <h2>Recent Sales</h2>
+    @for (sale of sales; track sale) {
+      <div class="activity-row">
+        <span>{{ sale }}</span>
+        <app-status-badge status="PAID" />
+      </div>
+    }
+  </article>
+  <article class="panel">
+    <h2>Recent Purchases</h2>
+    @for (purchase of purchases; track purchase) {
+      <div class="activity-row">
+        <span>{{ purchase }}</span>
+        <app-status-badge status="VERIFIED" />
+      </div>
+    }
+  </article>
+</section>

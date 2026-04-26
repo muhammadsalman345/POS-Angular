@@ -1,0 +1,13 @@
+<div class="search-filter-bar">
+  <mat-icon>search</mat-icon>
+  <input
+    type="search"
+    [(ngModel)]="search"
+    (ngModelChange)="searchChange.emit(search)"
+    placeholder="Search records"
+  />
+  <button mat-stroked-button type="button">
+    <mat-icon>filter_list</mat-icon>
+    Filters
+  </button>
+</div>

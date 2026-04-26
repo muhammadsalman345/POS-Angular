@@ -1,0 +1,39 @@
+<div class="dashboard-shell">
+  <aside class="sidebar" [ngClass]="{ open: sidebarOpen() }">
+    <a class="sidebar-brand" routerLink="/dashboard">
+      <span>POS</span>
+      <strong>MobileDesk</strong>
+    </a>
+    <nav>
+      @for (item of visibleMenu(); track item.route) {
+        <a [routerLink]="item.route" routerLinkActive="active" (click)="sidebarOpen.set(false)">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+  </aside>
+
+  <section class="workspace">
+    <header class="topbar">
+      <button mat-icon-button type="button" class="menu-button" (click)="sidebarOpen.set(!sidebarOpen())" aria-label="Toggle menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div>
+        <span class="eyebrow">Dashboard / {{ currentSection() }}</span>
+        <strong>{{ auth.currentUser()?.name ?? 'Shopkeeper' }}</strong>
+      </div>
+      <span class="spacer"></span>
+      <a mat-button routerLink="/profile">{{ auth.currentUser()?.role ?? 'USER' }}</a>
+      <button mat-stroked-button type="button" (click)="auth.logout()">Logout</button>
+    </header>
+
+    @if (loading.isLoading()) {
+      <app-loading-spinner />
+    }
+
+    <main class="content-area">
+      <router-outlet />
+    </main>
+  </section>
+</div>

@@ -1,0 +1,11 @@
+<label class="file-upload">
+  @if (previewUrl()) {
+    <img [src]="previewUrl()" alt="Selected file preview" />
+  } @else {
+    <span>
+      <mat-icon>cloud_upload</mat-icon>
+      {{ label() }}
+    </span>
+  }
+  <input type="file" accept="image/*" (change)="preview($event)" />
+</label>

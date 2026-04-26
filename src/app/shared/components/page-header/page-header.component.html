@@ -1,0 +1,15 @@
+<header class="page-header">
+  <div>
+    <span class="eyebrow">Workspace</span>
+    <h1>{{ title() }}</h1>
+    @if (subtitle()) {
+      <p>{{ subtitle() }}</p>
+    }
+  </div>
+  @if (actionLabel() && actionRoute()) {
+    <a mat-flat-button color="primary" [routerLink]="actionRoute()">
+      <mat-icon>{{ actionIcon() }}</mat-icon>
+      {{ actionLabel() }}
+    </a>
+  }
+</header>

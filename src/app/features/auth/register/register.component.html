@@ -1,0 +1,42 @@
+<form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" />
+    @if (form.controls.name.touched && form.controls.name.invalid) {
+      <mat-error>Name is required</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Phone</mat-label>
+    <input matInput formControlName="phone" />
+    @if (form.controls.phone.touched && form.controls.phone.invalid) {
+      <mat-error>Phone is required</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Role</mat-label>
+    <mat-select formControlName="role">
+      <mat-option [value]="userRole.SHOPKEEPER">Shopkeeper</mat-option>
+      <mat-option [value]="userRole.CUSTOMER">Customer</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput type="password" formControlName="password" />
+    @if (form.controls.password.touched && form.controls.password.invalid) {
+      <mat-error>Password must be at least 6 characters</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Confirm password</mat-label>
+    <input matInput type="password" formControlName="confirmPassword" />
+  </mat-form-field>
+  <button mat-flat-button color="primary" type="submit" [disabled]="loading()">Register</button>
+  <div class="auth-links">
+    <a routerLink="/login">Already have an account?</a>
+  </div>
+</form>

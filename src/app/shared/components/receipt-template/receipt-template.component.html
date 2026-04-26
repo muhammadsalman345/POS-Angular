@@ -1,0 +1,22 @@
+<article class="print-template">
+  <header>
+    <div>
+      <strong>Second-Hand Mobile POS</strong>
+      <span>Purchase receipt</span>
+    </div>
+    <div>
+      <span>Receipt</span>
+      <strong>{{ receiptNumber() }}</strong>
+    </div>
+  </header>
+  <section class="print-grid">
+    <div><span>Seller</span><strong>{{ seller() }}</strong></div>
+    <div><span>Product</span><strong>{{ product() }}</strong></div>
+    <div><span>Purchase total</span><strong>{{ amount() | currency: 'PKR ' }}</strong></div>
+    <div><span>Verification</span><strong>CNIC captured</strong></div>
+  </section>
+  <footer>
+    <span>Keep this receipt for shop records.</span>
+    <button type="button" class="btn btn-primary" onclick="window.print()">Print</button>
+  </footer>
+</article>

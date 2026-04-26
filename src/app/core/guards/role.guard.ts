@@ -1,22 +1,12 @@
-import { Injectable, inject } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthService } from '../services/auth/auth.service';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { APP_ROUTES } from '../constants/app-routes.constant';
+import { UserRole } from '../enums/user-role.enum';
+import { AuthService } from '../auth/auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class RoleGuard implements CanActivate {
-  private authService = inject(AuthService);
-
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const expectedRoles = route.data['roles'] as string[];
-    const user = this.authService.currentUser$;
-    
-    if (!expectedRoles || expectedRoles.length === 0) {
-      return true;
-    }
-
-    // This is a simplified check - you might want to implement proper role checking
-    return this.authService.hasRole(expectedRoles[0]);
-  }
-}
+export const roleGuard: CanActivateFn = (route) => {
+  const roles = (route.data['roles'] ?? []) as UserRole[];
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  return roles.length === 0 || auth.hasAnyRole(roles) ? true : router.parseUrl(APP_ROUTES.ACCESS_DENIED);
+};

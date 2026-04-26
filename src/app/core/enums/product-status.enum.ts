@@ -1,0 +1,8 @@
+export enum ProductStatus {
+  IN_STOCK = 'IN_STOCK',
+  RESERVED = 'RESERVED',
+  SOLD = 'SOLD',
+  RETURNED = 'RETURNED',
+  DAMAGED = 'DAMAGED',
+  UNDER_REPAIR = 'UNDER_REPAIR'
+}
