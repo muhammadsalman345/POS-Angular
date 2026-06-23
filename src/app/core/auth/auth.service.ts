@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   redirectAfterLogin(): void {
-    const destination = this.currentUser()?.role === UserRole.CUSTOMER ? `${APP_ROUTES.MARKETPLACE}/products` : APP_ROUTES.DASHBOARD;
+    const destination = this.currentUser()?.role === UserRole.BUYER ? `${APP_ROUTES.MARKETPLACE}/products` : APP_ROUTES.DASHBOARD;
     void this.router.navigateByUrl(destination);
   }
 

@@ -53,8 +53,8 @@ export const routes: Routes = [
       { path: 'reports/sales-report', data: { kind: 'sales' satisfies ResourceKind }, loadComponent: () => import('./features/common/resource-list/resource-list.component').then((c) => c.ResourceListComponent) },
       { path: 'sales/:id/invoice', loadComponent: () => import('./features/documents/invoice-page.component').then((c) => c.InvoicePageComponent) },
       { path: 'purchases/:id/receipt', loadComponent: () => import('./features/documents/receipt-page.component').then((c) => c.ReceiptPageComponent) },
-      { path: 'users', canActivate: [roleGuard], data: { roles: [UserRole.ADMIN], kind: 'users' satisfies ResourceKind }, loadComponent: () => import('./features/common/resource-list/resource-list.component').then((c) => c.ResourceListComponent) },
-      { path: 'users/:id', canActivate: [roleGuard], data: { roles: [UserRole.ADMIN], kind: 'users' satisfies ResourceKind }, loadComponent: () => import('./features/common/resource-detail/resource-detail.component').then((c) => c.ResourceDetailComponent) },
+      { path: 'users', canActivate: [roleGuard], data: { roles: [UserRole.SUPER_ADMIN], kind: 'users' satisfies ResourceKind }, loadComponent: () => import('./features/common/resource-list/resource-list.component').then((c) => c.ResourceListComponent) },
+      { path: 'users/:id', canActivate: [roleGuard], data: { roles: [UserRole.SUPER_ADMIN], kind: 'users' satisfies ResourceKind }, loadComponent: () => import('./features/common/resource-detail/resource-detail.component').then((c) => c.ResourceDetailComponent) },
       { path: 'access-denied', loadComponent: () => import('./features/system/access-denied/access-denied.component').then((c) => c.AccessDeniedComponent) },
       { path: 'not-found', loadComponent: () => import('./features/system/not-found/not-found.component').then((c) => c.NotFoundComponent) }
     ]

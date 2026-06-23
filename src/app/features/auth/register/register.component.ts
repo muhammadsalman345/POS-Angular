@@ -25,8 +25,8 @@ export class RegisterComponent {
   readonly form = this.fb.nonNullable.group({
     name: ['', Validators.required],
     phone: ['', Validators.required],
-    email: [''],
-    role: [UserRole.SHOPKEEPER, Validators.required],
+    email: ['',Validators.email],
+    role: [UserRole.SELLER, Validators.required],
     password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', Validators.required]
   });

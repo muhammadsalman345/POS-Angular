@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 export type QueryParams = Record<string, string | number | boolean | null | undefined>;
@@ -11,19 +12,19 @@ export class ApiService {
   private readonly baseUrl = environment.apiBaseUrl;
 
   get<T>(url: string, params?: QueryParams): Observable<T> {
-    return this.http.get<T>(this.path(url), { params: this.params(params) });
+    return this.http.get<T>(this.path(url), { params: this.params(params) }).pipe(map((response) => this.unwrap(response)));
   }
 
   post<T>(url: string, body: unknown): Observable<T> {
-    return this.http.post<T>(this.path(url), body);
+    return this.http.post<T>(this.path(url), body).pipe(map((response) => this.unwrap(response)));
   }
 
   patch<T>(url: string, body: unknown): Observable<T> {
-    return this.http.patch<T>(this.path(url), body);
+    return this.http.patch<T>(this.path(url), body).pipe(map((response) => this.unwrap(response)));
   }
 
   delete<T>(url: string): Observable<T> {
-    return this.http.delete<T>(this.path(url));
+    return this.http.delete<T>(this.path(url)).pipe(map((response) => this.unwrap(response)));
   }
 
   private path(url: string): string {
@@ -34,5 +35,15 @@ export class ApiService {
     return Object.entries(params ?? {}).reduce((httpParams, [key, value]) => {
       return value === null || value === undefined || value === '' ? httpParams : httpParams.set(key, String(value));
     }, new HttpParams());
+  }
+
+  private unwrap<T>(response: T): T {
+    if (response && typeof response === 'object' && 'success' in response && 'data' in response) {
+      return (response as { data: T }).data;
+    }
+    if (response && typeof response === 'object' && 'status' in response && 'data' in response) {
+      return (response as { data: T }).data;
+    }
+    return response;
   }
 }

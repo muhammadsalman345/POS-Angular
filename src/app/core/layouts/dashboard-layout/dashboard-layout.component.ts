@@ -23,7 +23,7 @@ export class DashboardLayoutComponent {
   private readonly router = inject(Router);
 
   readonly visibleMenu = computed(() => {
-    const role = this.auth.currentUser()?.role ?? UserRole.CUSTOMER;
+    const role = this.auth.currentUser()?.role ?? UserRole.BUYER;
     return SIDEBAR_MENU.filter((item) => item.roles.includes(role));
   });
 

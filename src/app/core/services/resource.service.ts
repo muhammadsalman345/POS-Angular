@@ -1,11 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { API_ENDPOINTS } from '../constants/api-endpoints.constant';
-import { UserRole } from '../enums/user-role.enum';
-import { ProductCondition } from '../enums/product-condition.enum';
-import { ProductStatus } from '../enums/product-status.enum';
-import { PtaStatus } from '../enums/pta-status.enum';
-import { PaymentMethod } from '../enums/payment-method.enum';
 import { SaleType } from '../enums/sale-type.enum';
 import { ApiService, QueryParams } from './api.service';
 import { PaginatedApiResponse } from '../models/api-response.model';
@@ -54,55 +49,83 @@ export const RESOURCE_CONFIGS: Record<ResourceKind, ResourceConfig> = {
 export class ResourceService {
   private readonly api = inject(ApiService);
 
-  private extractItems<T>(response: PaginatedApiResponse<T>): T[] {
-    return response.items || response.data || [];
+  private extractItems<T>(response: PaginatedApiResponse<T> | T[] | T): T[] {
+    if (Array.isArray(response)) return response;
+    const paginated = response as PaginatedApiResponse<T>;
+    return paginated.items || paginated.data || [];
+  }
+
+  private extractRecord<T extends ResourceRecord>(response: PaginatedApiResponse<T> | T): T {
+    const items = this.extractItems(response);
+    return items[0] || (response as T);
   }
 
   list(kind: ResourceKind, params?: QueryParams): Observable<ResourceRecord[]> {
-    return this.api.get<PaginatedApiResponse<ResourceRecord>>(RESOURCE_CONFIGS[kind].endpoint, params).pipe(
-      map(response => this.extractItems(response)),
-      catchError(() => of(this.mock(kind)))
+    return this.listEndpoint(kind, params).pipe(
+      switchMap((url) => this.api.get<PaginatedApiResponse<ResourceRecord>>(url, params)),
+      map(response => this.extractItems(response))
     );
   }
 
   get(kind: ResourceKind, id: string): Observable<ResourceRecord> {
-    return this.api.get<PaginatedApiResponse<ResourceRecord>>(`${RESOURCE_CONFIGS[kind].endpoint}/${id}`).pipe(
-      map(response => this.extractItems(response)?.[0] || {}),
-      catchError(() => of(this.mock(kind)[0] ?? {}))
+    return this.api.get<PaginatedApiResponse<ResourceRecord> | ResourceRecord>(`${RESOURCE_CONFIGS[kind].endpoint}/${id}`).pipe(
+      map(response => this.extractRecord(response))
     );
   }
 
   create(kind: ResourceKind, payload: ResourceRecord): Observable<ResourceRecord> {
-    return this.api.post<PaginatedApiResponse<ResourceRecord>>(RESOURCE_CONFIGS[kind].endpoint, payload).pipe(
-      map(response => this.extractItems(response)?.[0] || payload),
-      catchError(() => of(payload))
+    return this.createEndpoint(kind, payload).pipe(
+      switchMap((url) => this.api.post<PaginatedApiResponse<ResourceRecord> | ResourceRecord>(url, payload)),
+      map(response => this.extractRecord(response))
     );
   }
 
   update(kind: ResourceKind, id: string, payload: ResourceRecord): Observable<ResourceRecord> {
-    return this.api.patch<PaginatedApiResponse<ResourceRecord>>(`${RESOURCE_CONFIGS[kind].endpoint}/${id}`, payload).pipe(
-      map(response => this.extractItems(response)?.[0] || payload),
-      catchError(() => of(payload))
+    return this.api.patch<PaginatedApiResponse<ResourceRecord> | ResourceRecord>(`${RESOURCE_CONFIGS[kind].endpoint}/${id}`, payload).pipe(
+      map(response => this.extractRecord(response))
     );
   }
 
-  private mock(kind: ResourceKind): ResourceRecord[] {
-    const common = { id: 1, isActive: true };
-    const product = { ...common, brand: 'Apple', model: 'iPhone 13 Pro', imei1: '356789123456789', condition: ProductCondition.EXCELLENT, ptaStatus: PtaStatus.APPROVED, status: ProductStatus.IN_STOCK, expectedSalePrice: 185000, city: 'Lahore', shopName: 'Hafeez Mobile Center', image: 'https://images.unsplash.com/photo-1591337676887-a217a6970a8a?auto=format&fit=crop&w=900&q=80' };
-    const rows: Record<ResourceKind, ResourceRecord[]> = {
-      shops: [{ ...common, name: 'Hafeez Mobile Center', city: 'Lahore', area: 'Gulberg', phone: '04235700000', address: 'Shop 12, Hafeez Center, Gulberg', description: 'Trusted second-hand mobile shop in Lahore' }],
-      sellers: [{ ...common, name: 'Ali Raza', phone: '0300-2222222', cnic: '35202-1234567-1', complianceVerified: true }],
-      products: [product],
-      purchases: [{ ...common, receiptNumber: 'PUR-1001', purchaseDate: '2026-04-25', purchasePrice: 165000 }],
-      inventory: [product],
-      customers: [{ ...common, name: 'Sara Khan', phone: '0300-3333333', cnic: '35202-7654321-1' }],
-      sales: [{ ...common, invoiceNumber: 'INV-1001', saleDate: '2026-04-25', salePrice: 190000, paymentMethod: PaymentMethod.CASH, saleType: SaleType.OFFLINE }],
-      expenses: [{ ...common, title: 'Display repair', type: 'REPAIR', amount: 5000, createdAt: '2026-04-25' }],
-      reports: [{ label: 'Gross Profit', value: 'Rs. 240,000', tone: 'success' }],
-      users: [{ ...common, name: 'Admin User', phone: '0300-0000000', email: 'admin@example.com', role: UserRole.ADMIN }],
-      'marketplace-shops': [{ ...common, name: 'Hafeez Mobile Center', city: 'Lahore', area: 'Gulberg', phone: '0300-1234567' }],
-      'marketplace-products': [product]
-    };
-    return rows[kind];
+  private listEndpoint(kind: ResourceKind, params?: QueryParams): Observable<string> {
+    if (kind === 'reports') return this.shopEndpoint('/shops/:shopId/reports/dashboard', params);
+    if (kind === 'inventory') return this.shopEndpoint('/shops/:shopId/inventory', params);
+    if (['sellers', 'products', 'purchases', 'sales', 'expenses'].includes(kind)) {
+      return this.shopEndpoint(`/shops/:shopId/${kind}`, params);
+    }
+    return new Observable((subscriber) => {
+      subscriber.next(RESOURCE_CONFIGS[kind].endpoint);
+      subscriber.complete();
+    });
+  }
+
+  private createEndpoint(kind: ResourceKind, payload: ResourceRecord): Observable<string> {
+    if (kind === 'sales') {
+      const type = payload['saleType'] === SaleType.ONLINE ? 'online' : 'offline';
+      return this.shopEndpoint(`/shops/:shopId/sales/${type}`, payload);
+    }
+    if (['sellers', 'products', 'purchases', 'expenses'].includes(kind)) {
+      return this.shopEndpoint(`/shops/:shopId/${kind}`, payload);
+    }
+    return new Observable((subscriber) => {
+      subscriber.next(RESOURCE_CONFIGS[kind].endpoint);
+      subscriber.complete();
+    });
+  }
+
+  private shopEndpoint(template: string, source?: QueryParams | ResourceRecord): Observable<string> {
+    const providedShopId = source?.['shopId'];
+    if (providedShopId) {
+      return new Observable((subscriber) => {
+        subscriber.next(template.replace(':shopId', String(providedShopId)));
+        subscriber.complete();
+      });
+    }
+    return this.api.get<PaginatedApiResponse<ResourceRecord>>(API_ENDPOINTS.MY_SHOPS).pipe(
+      map((response) => {
+        const shop = this.extractItems(response)[0];
+        if (!shop?.['id']) throw new Error('Please create and approve a shop before using this module');
+        return template.replace(':shopId', String(shop['id']));
+      })
+    );
   }
 }

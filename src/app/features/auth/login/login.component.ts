@@ -35,7 +35,15 @@ export class LoginComponent {
         this.toast.success('Logged in successfully');
         this.auth.redirectAfterLogin();
       },
-      error: () => this.loading.set(false),
+      error: (err) => {
+        debugger
+        this.loading.set(false)
+        this.toast.error(err?.error?.error?.message)
+      },
+      //   error: (err) => {
+      //   this.loading.set(false);
+      //   this.toast.error(err.error?.error?.message || 'Invalid credentials');
+      // },
       complete: () => this.loading.set(false)
     });
   }
