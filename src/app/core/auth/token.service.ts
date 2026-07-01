@@ -14,7 +14,15 @@ export class TokenService {
 
   getUser(): User | null {
     const raw = localStorage.getItem(STORAGE_KEYS.USER);
-    return raw ? JSON.parse(raw) as User : null;
+    if (!raw) {
+      return null;
+    }
+    try {
+      return JSON.parse(raw) as User;
+    } catch {
+      this.clear();
+      return null;
+    }
   }
 
   setUser(user: User): void {

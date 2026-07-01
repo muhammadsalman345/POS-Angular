@@ -36,14 +36,9 @@ export class LoginComponent {
         this.auth.redirectAfterLogin();
       },
       error: (err) => {
-        debugger
-        this.loading.set(false)
-        this.toast.error(err?.error?.error?.message)
+        this.loading.set(false);
+        this.toast.error(err?.error?.message || 'Invalid credentials');
       },
-      //   error: (err) => {
-      //   this.loading.set(false);
-      //   this.toast.error(err.error?.error?.message || 'Invalid credentials');
-      // },
       complete: () => this.loading.set(false)
     });
   }

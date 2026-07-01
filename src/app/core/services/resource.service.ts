@@ -27,7 +27,7 @@ export interface ResourceConfig {
   createRoute?: string;
 }
 
-export type ResourceValue = string | number | boolean | null | undefined;
+export type ResourceValue = string | number | boolean | ResourceRecord | null | undefined;
 export type ResourceRecord = Record<string, ResourceValue>;
 
 export const RESOURCE_CONFIGS: Record<ResourceKind, ResourceConfig> = {

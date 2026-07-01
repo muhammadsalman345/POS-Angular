@@ -17,7 +17,7 @@ export class AuthService {
   private readonly user = signal<User | null>(this.tokenService.getUser());
 
   readonly currentUser = this.user.asReadonly();
-  readonly isAuthenticated = computed(() => Boolean(this.tokenService.getToken()));
+  readonly isAuthenticated = computed(() => Boolean(this.user() && this.tokenService.getToken()));
 
   login(payload: LoginRequest): Observable<AuthResponse> {
     return this.api.post<AuthResponse>(API_ENDPOINTS.AUTH_LOGIN, payload).pipe(tap((response) => this.persist(response)));
@@ -42,9 +42,12 @@ export class AuthService {
     return Boolean(role && roles.includes(role));
   }
 
+  homeUrl(): string {
+    return this.currentUser()?.role === UserRole.BUYER ? `${APP_ROUTES.MARKETPLACE}/products` : APP_ROUTES.DASHBOARD;
+  }
+
   redirectAfterLogin(): void {
-    const destination = this.currentUser()?.role === UserRole.BUYER ? `${APP_ROUTES.MARKETPLACE}/products` : APP_ROUTES.DASHBOARD;
-    void this.router.navigateByUrl(destination);
+    void this.router.navigateByUrl(this.homeUrl());
   }
 
   private persist(response: AuthResponse): void {
